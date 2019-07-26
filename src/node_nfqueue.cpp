@@ -214,7 +214,7 @@ int nfqueue::nf_callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct
 
   Local<Value> argv[] = { p, buff.ToLocalChecked() };
 
-  Local<Value> ret = queue->callback.Call(2, argv);
+  Local<Value> ret = queue->callback.Call(2, argv, queue);
 
   return ret->Int32Value(Nan::GetCurrentContext()).FromJust();
 }
