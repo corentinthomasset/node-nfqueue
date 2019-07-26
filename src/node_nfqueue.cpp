@@ -216,7 +216,7 @@ int nfqueue::nf_callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct
 
   Local<Value> ret = queue->callback.Call(2, argv);
 
-  return ret->Int32Value();
+  return ret->Int32Value(Nan::GetCurrentContext()).FromJust();
 }
 
 NAN_METHOD(nfqueue::Verdict) {
