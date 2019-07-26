@@ -116,9 +116,9 @@ NAN_METHOD(nfqueue::Open) {
   }
   nfq_bind_pf(obj->handle, AF_INET);
 
-  obj->qhandle = nfq_create_queue(obj->handle, info[0]->Uint32Value(), &nf_callback, (void*)obj);
+  obj->qhandle = nfq_create_queue(obj->handle, info[0]->Uint32Value(Nan::GetCurrentContext()).FromJust(), &nf_callback, (void*)obj);
   // Set socket buffer size
-  nfnl_rcvbufsiz(nfq_nfnlh(obj->handle), info[1]->Uint32Value());
+  nfnl_rcvbufsiz(nfq_nfnlh(obj->handle), info[1]->Uint32Value(Nan::GetCurrentContext()).FromJust());
   // To avoid socket destroy with recvfrom(...) = -1 ENOBUFS (No buffer space available) we will
   // set NETLINK_NO_ENOBUFS socket option (requires Linux kernel >= 2.6.30).
   // http://www.netfilter.org/projects/libnetfilter_queue/doxygen/index.html
@@ -236,9 +236,9 @@ NAN_METHOD(nfqueue::Verdict) {
   }
 
   if (info.Length() == 3) {
-    nfq_set_verdict(obj->qhandle, info[0]->Uint32Value(), info[1]->Uint32Value(), buff_length, buff_data);
+    nfq_set_verdict(obj->qhandle, info[0]->Uint32Value(Nan::GetCurrentContext()).FromJust(), info[1]->Uint32Value(Nan::GetCurrentContext()).FromJust(), buff_length, buff_data);
   } else if (info.Length() == 4) {
-    nfq_set_verdict2(obj->qhandle, info[0]->Uint32Value(), info[1]->Uint32Value(), info[2]->Uint32Value(), buff_length, buff_data);
+    nfq_set_verdict2(obj->qhandle, info[0]->Uint32Value(Nan::GetCurrentContext()).FromJust(), info[1]->Uint32Value(Nan::GetCurrentContext()).FromJust(), info[2]->Uint32Value(Nan::GetCurrentContext()).FromJust(), buff_length, buff_data);
   }
 
   return;
